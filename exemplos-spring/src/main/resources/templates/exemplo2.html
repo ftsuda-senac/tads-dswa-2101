@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Exemplos Spring MVC</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div>
+            <h1>Spring MVC - Exemplo 2</h1>
+            <p>Nome: <span data-th-text="${nome}">xxxxxxxx</span></p>
+            <p>Data de nascimento: <span th:text="${dataNascimento}">yyyy-MM-dd</span></p>
+            <p>Número: <span th:text="${numero}">00</span></p>
+            <p>Data e hora atual: <span th:text="${dataHoraAtual}"></span></p>
+        </div>
+    </body>
+</html>
