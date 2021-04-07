@@ -6,6 +6,7 @@
 package br.senad.tads.dsw.exemplosspring;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Dados {
 
@@ -14,6 +15,16 @@ public class Dados {
     private LocalDate dataNascimento;
 
     private int numero;
+    
+    public Dados() {
+        
+    }
+
+    public Dados(String nome, LocalDate dataNascimento, int numero) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.numero = numero;
+    }
 
     public String getNome() {
         return nome;
@@ -37,6 +48,11 @@ public class Dados {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+    
+    public boolean isMenorIdade() {
+        long idade = ChronoUnit.YEARS.between(dataNascimento, LocalDate.now());
+        return idade < 18;
     }
 
 }

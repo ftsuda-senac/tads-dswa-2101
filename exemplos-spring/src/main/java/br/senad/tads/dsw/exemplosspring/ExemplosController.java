@@ -7,9 +7,15 @@ package br.senad.tads.dsw.exemplosspring;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -52,4 +58,62 @@ public class ExemplosController {
         return mv;
     }
     
+    @GetMapping("/ex4")
+    public ModelAndView exemplo4() {
+        List<Dados> lista = new ArrayList<>();
+        lista.add(new Dados("Fulano da Silva", LocalDate.parse("2000-10-20"), 42));
+        lista.add(new Dados("Ciclano de Souza", LocalDate.parse("2003-04-08"), 15));
+        lista.add(new Dados("Beltrana dos Santos", LocalDate.parse("2004-01-23"), 38));
+        
+        ModelAndView mv = new ModelAndView("exemplo4");
+        mv.addObject("lista", lista);
+        return mv;
+    }
+    
+    @GetMapping("/ex5")
+    public ModelAndView exemplo5(
+            @RequestParam("nome") String nome,
+            @RequestParam(value = "dtnasc", required = false) String dtNascStr,
+            @RequestParam(value = "numero", defaultValue = "0") int numero) {
+        
+        Dados dados = new Dados();
+        dados.setNome(nome);
+        if (dtNascStr != null) {
+            dados.setDataNascimento(LocalDate.parse(dtNascStr));
+        }
+        dados.setNumero(numero);
+        
+        ModelAndView mv = new ModelAndView("exemplo5");
+        mv.addObject("dados", dados);
+        return mv;
+    }
+
+    @GetMapping("/ex6/{apelido}")
+    public ModelAndView exemplo6(
+            @PathVariable("apelido") String apelido) {
+        
+        ModelAndView mv = new ModelAndView("exemplo6");
+        if ("fulano".equals(apelido)) {
+            mv.addObject("dados", new Dados("Fulano da Silva", LocalDate.parse("2000-01-29"), 99));
+        } else if ("ciclano".equals(apelido)) {
+            mv.addObject("dados", new Dados("Ciclano de Souza", LocalDate.parse("2003-03-29"), 54));
+        }
+        return mv;
+    }
+
+    @GetMapping("/ex7")
+    public ModelAndView exemplo7(
+            @RequestHeader("user-agent") String userAgent) {
+        ModelAndView mv = new ModelAndView("exemplo7");
+        mv.addObject("ua", userAgent);
+        return mv;
+    }
+  
+    @GetMapping("/ex8")
+    public ModelAndView exemplo8(
+        @RequestHeader Map<String, String> headersHttp) {
+        ModelAndView mv = new ModelAndView("exemplo8");
+        mv.addObject("headers", headersHttp);
+        return mv;
+    }
 }
