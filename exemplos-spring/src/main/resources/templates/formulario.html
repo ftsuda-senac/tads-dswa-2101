@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplos Spring MVC</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>
+            <h1>Exemplo Formulário</h1>
+            <form th:action="@{/formulario/salvar}" method="POST">
+                <div>
+                    <label>Nome</label>
+                    <input type="text" name="nome" />
+                </div>
+                <div>
+                    <label>E-mail</label>
+                    <input type="email" name="email" />
+                </div>
+                <div>
+                    <label>Telefone</label>
+                    <input type="text" name="telefone" />
+                </div>
+                <div>
+                    <label>Senha</label>
+                    <input type="password" name="senha" />
+                </div>
+                <div>
+                    <label>Repetir senha</label>
+                    <input type="password" name="repetirSenha" />
+                </div>
+                <div>
+                    <label>Descrição</label>
+                    <textarea name="descricao"></textarea>
+                </div>
+                <div>
+                    <label>Número de 1 a 99</label>
+                    <input type="number" name="numero" />
+                </div>
+                <div>
+                    <label>Peso</label>
+                    <input type="number" name="peso" step="0.1"  />
+                </div>
+                <div>
+                    <label>Altura</label>
+                    <input type="number" name="altura" step="0.01" />
+                </div>
+                <div>
+                    <label>Data de nascimento</label>
+                    <input type="date" name="dataNascimento" />
+                </div>
+                <fieldset>
+                    <legend>Gênero</legend>
+                    <div>
+                        <input type="radio" name="genero" value="0" id="radGeneroF" />
+                        <label for="radGeneroF">Feminino</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="genero" value="1" id="radGeneroM" />
+                        <label for="radGeneroM">Masculino</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Interesses</legend>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Tecnologia" id="interesse1" />
+                        <label for="interesse1">Tecnologia</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Esportes" id="interesse2" />
+                        <label for="interesse2">Esportes</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Gastronomia" id="interesse3" />
+                        <label for="interesse3">Gastronomia</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Viagens" id="interesse4" />
+                        <label for="interesse4">Viagens</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Investimentos" id="interesse5" />
+                        <label for="interesse5">Investimentos</label>
+                    </div>
+                </fieldset>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </body>
+</html>
