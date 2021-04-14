@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>
+        <div th:if="${dados != null}">
             <h1>Dados salvos com sucesso</h1>
             <p>Nome: <span th:text="${dados.nome}"></span></p>
             <p>E-mail: <span th:text="${dados.email}"></span></p>
@@ -25,6 +25,10 @@
                 </ul>
                 <span th:unless="${dados.interesses != null && !dados.interesses.isEmpty()}">Nenhum selecionado</span>
             </p>
+            <a th:href="@{/formulario}">Voltar</a>
+        </div>
+        <div th:if="${dados == null}">
+            <h2>Não há resultado para ser exibido</h2>
             <a th:href="@{/formulario}">Voltar</a>
         </div>
     </body>

@@ -8,78 +8,78 @@
     <body>
         <div>
             <h1>Exemplo Formulário</h1>
-            <form th:action="@{/formulario/salvar}" method="POST">
+            <form th:action="@{/formulario/salvar-post-redirect-get}" method="POST" th:object="${dados}">
                 <div>
                     <label>Nome</label>
-                    <input type="text" name="nome" />
+                    <input type="text" name="nome" th:field="*{nome}" />
                 </div>
                 <div>
                     <label>E-mail</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email" th:field="*{email}" />
                 </div>
                 <div>
                     <label>Telefone</label>
-                    <input type="text" name="telefone" />
+                    <input type="text" name="telefone" th:field="*{telefone}" />
                 </div>
                 <div>
                     <label>Senha</label>
-                    <input type="password" name="senha" />
+                    <input type="password" name="senha" th:field="*{senha}" />
                 </div>
                 <div>
                     <label>Repetir senha</label>
-                    <input type="password" name="repetirSenha" />
+                    <input type="password" name="repetirSenha" th:field="*{repetirSenha}" />
                 </div>
                 <div>
                     <label>Descrição</label>
-                    <textarea name="descricao"></textarea>
+                    <textarea name="descricao" th:field="*{descricao}"></textarea>
                 </div>
                 <div>
                     <label>Número de 1 a 99</label>
-                    <input type="number" name="numero" />
+                    <input type="number" name="numero" th:field="*{numero}" />
                 </div>
                 <div>
                     <label>Peso</label>
-                    <input type="number" name="peso" step="0.1"  />
+                    <input type="number" name="peso" step="0.1" th:field="*{peso}" />
                 </div>
                 <div>
                     <label>Altura</label>
-                    <input type="number" name="altura" step="0.01" />
+                    <input type="number" name="altura" step="0.01" th:field="*{altura}" />
                 </div>
                 <div>
                     <label>Data de nascimento</label>
-                    <input type="date" name="dataNascimento" />
+                    <input type="date" name="dataNascimento" th:field="*{dataNascimento}" />
                 </div>
                 <fieldset>
                     <legend>Gênero</legend>
                     <div>
-                        <input type="radio" name="genero" value="0" id="radGeneroF" />
+                        <input type="radio" name="genero" value="0" id="radGeneroF" th:field="*{genero}" />
                         <label for="radGeneroF">Feminino</label>
                     </div>
                     <div>
-                        <input type="radio" name="genero" value="1" id="radGeneroM" />
+                        <input type="radio" name="genero" value="1" id="radGeneroM" th:field="*{genero}" />
                         <label for="radGeneroM">Masculino</label>
                     </div>
                 </fieldset>
                 <fieldset>
                     <legend>Interesses</legend>
                     <div>
-                        <input type="checkbox" name="interesses" value="Tecnologia" id="interesse1" />
+                        <input type="checkbox" name="interesses" value="Tecnologia" id="interesse1" th:field="*{interesses}" />
                         <label for="interesse1">Tecnologia</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="interesses" value="Esportes" id="interesse2" />
+                        <input type="checkbox" name="interesses" value="Esportes" id="interesse2" th:field="*{interesses}" />
                         <label for="interesse2">Esportes</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="interesses" value="Gastronomia" id="interesse3" />
+                        <input type="checkbox" name="interesses" value="Gastronomia" id="interesse3" th:field="*{interesses}" />
                         <label for="interesse3">Gastronomia</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="interesses" value="Viagens" id="interesse4" />
+                        <input type="checkbox" name="interesses" value="Viagens" id="interesse4" th:field="*{interesses}" />
                         <label for="interesse4">Viagens</label>
                     </div>
                     <div>
-                        <input type="checkbox" name="interesses" value="Investimentos" id="interesse5" />
+                        <input type="checkbox" name="interesses" value="Investimentos" id="interesse5" th:field="*{interesses}" />
                         <label for="interesse5">Investimentos</label>
                     </div>
                 </fieldset>
