@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Exemplos Spring MVC</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .msg-erro {
+                background-color: lightpink;
+                color: red;
+                padding: 2px 5px;
+            }
+            input.invalido {
+                border-color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>Exemplo Formulário com Validação</h1>
+            <form th:action="@{/formulario/validacao/salvar-post-redirect-get}" method="POST" th:object="${dados}" novalidate>
+                <div>
+                    <label>Nome</label>
+                    <input type="text" name="nome" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')}? invalido" required maxlength="100" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">ERRO</span>
+                </div>
+                <div>
+                    <label>E-mail</label>
+                    <input type="email" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')}? invalido" required maxlength="100" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">ERRO</span>
+                </div>
+                <div>
+                    <label>Telefone</label>
+                    <input type="text" name="telefone" th:field="*{telefone}" />
+                </div>
+                <div>
+                    <label>Senha</label>
+                    <input type="password" name="senha" th:field="*{senha}" required />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">ERRO</span>
+                    <span class="msg-erro" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></span>
+                </div>
+                <div>
+                    <label>Repetir senha</label>
+                    <input type="password" name="repetirSenha" th:field="*{repetirSenha}" required />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('repetirSenha')}" th:errors="*{repetirSenha}">ERRO</span>
+                </div>
+                <div>
+                    <label>Descrição</label>
+                    <textarea name="descricao" th:field="*{descricao}"></textarea>
+                </div>
+                <div>
+                    <label>Número de 1 a 99</label>
+                    <input type="number" name="numero" th:field="*{numero}" min="1" max="99" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}">ERRO</span>
+                </div>
+                <div>
+                    <label>Peso</label>
+                    <input type="number" name="peso" step="0.1" th:field="*{peso}" min="0" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}">ERRO</span>
+                </div>
+                <div>
+                    <label>Altura</label>
+                    <input type="number" name="altura" step="0.01" th:field="*{altura}" min="0" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}">ERRO</span>
+                </div>
+                <div>
+                    <label>Data de nascimento</label>
+                    <input type="date" name="dataNascimento" th:field="*{dataNascimento}" maxlength="10" />
+                    <span class="msg-erro" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">ERRO</span>
+                </div>
+                <fieldset>
+                    <legend>Gênero</legend>
+                    <div>
+                        <input type="radio" name="genero" value="0" id="radGeneroF" th:field="*{genero}" />
+                        <label for="radGeneroF">Feminino</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="genero" value="1" id="radGeneroM" th:field="*{genero}" />
+                        <label for="radGeneroM">Masculino</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Interesses</legend>
+                    <div class="msg-erro" th:if="${#fields.hasErrors('interesses')}" th:errors="*{interesses}">ERRO</div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Tecnologia" id="interesse1" th:field="*{interesses}" />
+                        <label for="interesse1">Tecnologia</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Esportes" id="interesse2" th:field="*{interesses}" />
+                        <label for="interesse2">Esportes</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Gastronomia" id="interesse3" th:field="*{interesses}" />
+                        <label for="interesse3">Gastronomia</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Viagens" id="interesse4" th:field="*{interesses}" />
+                        <label for="interesse4">Viagens</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="interesses" value="Investimentos" id="interesse5" th:field="*{interesses}" />
+                        <label for="interesse5">Investimentos</label>
+                    </div>
+                </fieldset>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </body>
+</html>
