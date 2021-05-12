@@ -42,15 +42,26 @@ public class ProdutoRepositoryJpaImpl implements ProdutoRepository {
         return jpqlQuery.getResultList();
     }
 
-    @Override
+    @Override // SÓ FUNCIONA COM open-in-view=true no application.properties
     public Produto findById(Long id) {
-        EntityGraph<?> entityGraph = em.getEntityGraph("graph.ProdutoCategoriasImagens");
-        TypedQuery<Produto> jpqlQuery
-                = em.createNamedQuery("Produto.findById", Produto.class);
+        TypedQuery<Produto> jpqlQuery = em.createQuery("SELECT p FROM Produto p WHERE p.id = :idProd", Produto.class);
         jpqlQuery.setParameter("idProd", id);
-        jpqlQuery.setHint("javax.persistence.loadgraph", entityGraph);
         Produto p = jpqlQuery.getSingleResult();
         return p;
+    }
+
+    public Produto findByIdComFetch(Long id) {
+        TypedQuery<Produto> jpqlQuery = em.createNamedQuery("Produto.findByIdComFetch", Produto.class);
+        jpqlQuery.setParameter("idProd", id);
+        return jpqlQuery.getSingleResult();
+    }
+
+    public Produto findByIdComNamedEntityGraph(Long id) { // ComNamedEntityGraph
+        EntityGraph<?> namedEntityGraph = em.getEntityGraph("graph.ProdutoCategoriasImagens");
+        TypedQuery<Produto> jpqlQuery = em.createQuery("SELECT p FROM Produto p WHERE p.id = :idProd", Produto.class);
+        jpqlQuery.setParameter("idProd", id);
+        jpqlQuery.setHint("javax.persistence.loadgraph", namedEntityGraph);
+        return jpqlQuery.getSingleResult();
     }
 
     @Override
