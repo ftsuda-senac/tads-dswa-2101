@@ -47,7 +47,8 @@ public class ProdutoController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
-    public ModelAndView listar(@RequestParam(name = "offset", defaultValue = "0") int offset,
+    public ModelAndView listar(
+            @RequestParam(name = "offset", defaultValue = "0") int offset,
             @RequestParam(name = "qtd", defaultValue = "500") int qtd,
             @RequestParam(name = "idsCat", required = false) List<Integer> idsCat) {
         List<Produto> resultados;
