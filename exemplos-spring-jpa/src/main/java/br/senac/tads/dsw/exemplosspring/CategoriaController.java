@@ -20,7 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.senac.tads.dsw.exemplosspring.produto.Categoria;
-import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepository;
+import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
+import java.util.Optional;
 
 /**
  *
@@ -31,7 +32,7 @@ import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepository;
 public class CategoriaController {
 
     @Autowired
-    private CategoriaRepository repository;
+    private CategoriaRepositorySpringData repository;
 
     @GetMapping
     public ModelAndView listar() {
@@ -46,7 +47,12 @@ public class CategoriaController {
 
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable("id") int id) {
-        Categoria cat = repository.findById(id);
+        Optional<Categoria> optCat = repository.findById(id);
+        if (optCat.isEmpty()) {
+            // TODO: MELHORAR TRATAMENTO DO ERRO
+            return new ModelAndView("redirect:/categoria");
+        }
+        Categoria cat = optCat.get();
         return new ModelAndView("categoria/form").addObject("categoria", cat);
     }
 

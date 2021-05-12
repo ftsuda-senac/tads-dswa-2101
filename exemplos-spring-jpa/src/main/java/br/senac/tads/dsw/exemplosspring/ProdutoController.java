@@ -4,17 +4,23 @@
  */
 package br.senac.tads.dsw.exemplosspring;
 
+import br.senac.tads.dsw.exemplosspring.produto.Categoria;
+import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepositorySpringData;
+import br.senac.tads.dsw.exemplosspring.produto.ImagemProduto;
+import br.senac.tads.dsw.exemplosspring.produto.Produto;
+import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepositorySpringData;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.senac.tads.dsw.exemplosspring.produto.Categoria;
-import br.senac.tads.dsw.exemplosspring.produto.CategoriaRepository;
-import br.senac.tads.dsw.exemplosspring.produto.ImagemProduto;
-import br.senac.tads.dsw.exemplosspring.produto.Produto;
-import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepository;
-
 /**
  *
  * @author fernando.tsuda
@@ -41,22 +41,26 @@ import br.senac.tads.dsw.exemplosspring.produto.ProdutoRepository;
 public class ProdutoController {
 
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProdutoRepositorySpringData produtoRepository;
 
     @Autowired
-    private CategoriaRepository categoriaRepository;
+    private CategoriaRepositorySpringData categoriaRepository;
 
     @GetMapping
     public ModelAndView listar(@RequestParam(name = "offset", defaultValue = "0") int offset,
             @RequestParam(name = "qtd", defaultValue = "500") int qtd,
             @RequestParam(name = "idsCat", required = false) List<Integer> idsCat) {
-        List<Produto> resultados;
+        List<Produto> resultados = null;
+        // Definir página atual
+        int pagina = offset/qtd;
         if (idsCat != null && !idsCat.isEmpty()) {
             // Busca pelos IDs das categorias informadas
-            resultados = produtoRepository.findByCategoria(idsCat, offset, qtd);
+            Page<Produto> pagedResultados = produtoRepository.findByCategorias_IdIn(idsCat, PageRequest.of(pagina, qtd));
+            resultados = pagedResultados.getContent();
         } else {
             // Lista todos os produtos usando paginacao
-            resultados = produtoRepository.findAll(offset, qtd);
+            Page<Produto> pagedResultados = produtoRepository.findAll(PageRequest.of(pagina, qtd));
+            resultados = pagedResultados.getContent();
         }
         return new ModelAndView("produto/lista").addObject("produtos", resultados);
     }
@@ -68,8 +72,12 @@ public class ProdutoController {
 
     @GetMapping("/{id}/editar")
     public ModelAndView editar(@PathVariable("id") long id) {
-
-        Produto prod = produtoRepository.findById(id);
+        Optional<Produto> optProd = produtoRepository.findById(id);
+        if (optProd.isEmpty()) {
+            // TODO: MELHORAR TRATAMENTO DO ERRO
+            return new ModelAndView("redirect:/produto");
+        }
+        Produto prod = optProd.get();
         if (prod.getCategorias() != null && !prod.getCategorias().isEmpty()) {
             Set<Integer> idsCategorias = new HashSet<>();
             for (Categoria cat : prod.getCategorias()) {
@@ -90,9 +98,12 @@ public class ProdutoController {
         if (produto.getIdsCategorias() != null && !produto.getIdsCategorias().isEmpty()) {
             Set<Categoria> categoriasSelecionadas = new HashSet<>();
             for (Integer idCat : produto.getIdsCategorias()) {
-                Categoria cat = categoriaRepository.findById(idCat);
-                categoriasSelecionadas.add(cat);
-                cat.setProdutos(new HashSet<>(Arrays.asList(produto)));
+                Optional<Categoria> optCat = categoriaRepository.findById(idCat);
+                if (optCat.isPresent()) {
+                    Categoria cat = optCat.get();
+                    categoriasSelecionadas.add(cat);
+                    cat.setProdutos(new HashSet<>(Arrays.asList(produto)));
+                }
             }
             produto.setCategorias(categoriasSelecionadas);
         }
