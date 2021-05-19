@@ -4,6 +4,7 @@
 <title>Exemplo Spring Security</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" th:href="@{/css/estilos.css}" />
 </head>
 <body>
   <h1>Home</h1>
@@ -14,9 +15,9 @@
       </h2>
       <p th:text="${usuario.hashSenha}"></p>
       <ul>
-        <li><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
-        <li><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
-        <li><a th:href="@{/protegido/god}">Tela GOD</a></li>
+        <li sec:authorize="hasRole('PEAO')"><a th:href="@{/protegido/peao}">Tela PEAO</a></li>
+        <li sec:authorize="hasRole('FODON')"><a th:href="@{/protegido/fodon}">Tela FODON</a></li>
+        <li sec:authorize="hasRole('GOD')"><a th:href="@{/protegido/god}">Tela GOD</a></li>
       </ul>
       <p>
         <a th:href="@{/logout}">Sair</a>
