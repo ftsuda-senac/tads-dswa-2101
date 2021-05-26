@@ -45,7 +45,67 @@ code {
 </style>
 <!-- IMPLEMENTAR FUNCIONALIDADES JAVASCRIPT/AJAX -->
 <script>
-  
+
+function carregarDados(id) {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', '/rest/pessoas/' + id, true)
+    xhr.addEventListener('load', function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            let dados = JSON.parse(xhr.responseText)
+            const form = document.querySelector('#dadosForm')
+            form.id.value = dados.id
+            form.nome.value = dados.nome
+            form.sexo.value = dados.sexo
+            form.dataNascimento.value = dados.dataNascimento
+            for (const interesse of dados.interesses) {
+                document.querySelector('#interesse_' + interesse.id).checked = true;
+            }
+        }
+    })
+    xhr.send()
+}
+
+function incluirNovo() {
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', '/rest/pessoas', true)
+    xhr.setRequestHeader('Content-type', 'application/json')
+    xhr.setRequestHeader('Accept', 'application/json')
+    
+    const form = document.querySelector('#dadosForm')
+    const interessesId = []
+    const interesses = document.querySelectorAll('input[name="interessesId"]')
+    for (const elCheckbox of interesses) {
+        if (elCheckbox.checked) {
+            interessesId.push(+elCheckbox.value)
+        }
+    }
+    const dadosParaSalvar = {
+        nome: form.nome.value,
+        sexo: +form.sexo.value,
+        dataNascimento: form.dataNascimento.value,
+        interessesId: interessesId
+    }
+    console.log('JSON montado: ' + JSON.stringify(dadosParaSalvar))
+    xhr.addEventListener('load', function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            alert(xhr.status + ' - ' + xhr.statusText + '\r\nURI: '+ xhr.getResponseHeader('Location'))
+        }
+    })
+    xhr.send(JSON.stringify(dadosParaSalvar))
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search)
+    const idPessoa = urlParams.get('id')
+    if (idPessoa !== null) {
+        carregarDados(idPessoa)
+        document.getElementById('titulo').innerHTML = 'Editar pessoa ID ' + idPessoa
+    }
+    document.getElementById('dadosForm').addEventListener('submit', function(evt) {
+        evt.preventDefault()
+        incluirNovo()
+    })
+})
 </script>
 </head>
 <body class="d-flex flex-column h-100">
@@ -60,7 +120,7 @@ code {
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2>Inclusão de pessoa</h2>
+          <h2 id="titulo">Inclusão de pessoa</h2>
           <form id="dadosForm" novalidate>
             <input type="hidden" name="id" value="">
             <div class="form-group row">

@@ -72,13 +72,11 @@
         </dependency>
         
         <!-- DOCUMENTAÇÃO OPEN API 3/SWAGGER 2 -->
-        <!--
         <dependency>
            <groupId>org.springdoc</groupId>
            <artifactId>springdoc-openapi-ui</artifactId>
            <version>1.5.9</version>
         </dependency>
-        -->
         <!--
         <dependency>
             <groupId>org.springdoc</groupId>

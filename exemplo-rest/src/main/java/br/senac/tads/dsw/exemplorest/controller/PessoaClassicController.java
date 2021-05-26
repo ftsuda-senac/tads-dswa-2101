@@ -36,7 +36,8 @@ public class PessoaClassicController {
     }
 
     @GetMapping
-    public ModelAndView listar(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
+    public ModelAndView listar(
+            @RequestParam(value = "pagina", defaultValue = "0") int pagina,
             @RequestParam(value = "qtd", defaultValue = "10") int qtd) {
         Page<Pessoa> pessoas = pessoaRepository.findAll(PageRequest.of(pagina, qtd));
         ModelAndView mv = new ModelAndView("pessoa/lista-template");
